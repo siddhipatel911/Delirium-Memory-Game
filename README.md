@@ -73,8 +73,6 @@ The game flashes a sequence of **LED + color** combinations, and the player must
   - Controlled using digital pins `11` and `12`
   - Activated with `analogWrite(...)`
 
-> Note: confirm final wiring with your lab schematic before rebuilding the system.
-
 ---
 
 ## 🎮 How to Play
