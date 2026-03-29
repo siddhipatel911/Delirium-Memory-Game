@@ -18,7 +18,7 @@ The game flashes a sequence of **LED + color** combinations, and the player must
 ![Final prototype with motor reward system](assets/final-prototype.jpeg)
 
 ### 🎥 Demo Video
-[▶ Watch the project demo](assets/demo.mov)
+[▶ Watch the project demo](assets/memory-game-demo.mov)
 
 ---
 
