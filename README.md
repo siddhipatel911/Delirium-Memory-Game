@@ -1,117 +1,155 @@
-# Cognitive Delirium Memory Game (Arduino)
+# 🧠 Cognitive Delirium Memory Game (Arduino)
 
-A Simon Says–style **RGB LED memory game** built on **Arduino Uno R4** to support
-cognitive monitoring for hospital patients at risk of delirium.
+A Simon Says–style **RGB LED memory game** built on an **Arduino Uno R4** to support cognitive monitoring for hospital patients at risk of delirium.
 
-The game flashes a sequence of **LED + colour** combinations. The player must
-repeat the sequence using three buttons. Difficulty scales with pattern length,
-and successful rounds reward the player by activating a motor (e.g., to raise a
-small flag). Scores and rounds are printed to the Serial Monitor so they can be
-logged or sent to an external interface.
+The game flashes a sequence of **LED + color** combinations, and the player must repeat the pattern using three buttons. Difficulty scales with pattern length, and successful rounds trigger a **motor reward system** that raises a small flag. Scores and rounds are printed to the **Serial Monitor** so they can be logged or sent to an external interface.
 
-> Front-end / logging interface (Patient Game Log):  
-> https://reflex-1bit.github.io/ece198/
+🔗 **Front-end / Patient Game Log:**  
+[Patient Game Log Website](https://reflex-1bit.github.io/ece198/)
 
 ---
 
-## Features
+## 📸 Project Preview
 
-- **3 RGB LEDs + 3 buttons**
-  - Each LED has 3 colours (Red, Green, Blue).
-  - Each button corresponds to one LED.
-  - 1 click = Red, 2 clicks = Green, 3 clicks = Blue.
+### Breadboard + Arduino setup
+![Breadboard and Arduino setup](assets/arduino-breadboard-setup.jpeg)
 
-- **Difficulty selection**
-  - Button 1 → Easy (3-step pattern)  
-  - Button 2 → Medium (5-step pattern)  
-  - Button 3 → Hard (7-step pattern)
+### Final prototype
+![Final prototype with motor reward system](assets/final-prototype.jpeg)
 
-- **Non-blocking pattern display**
-  - Uses `millis()` to time LED on/off intervals instead of `delay()`.
-  - Patterns are generated with no immediate repeats to keep it engaging.
-
-- **Scoring + motor reward**
-  - Score increases when the full pattern is entered correctly.
-  - Every multiple of 3 points triggers the motor to run forward and backward
-    as a reward.
-  - Score and rounds played are printed to the Serial Monitor for logging.
-
-- **Game loop**
-  - Show pattern → wait for player input → check correctness → update score →
-    reward or show correct pattern on Serial Monitor → choose to continue or quit.
+### 🎥 Demo Video
+[▶ Watch the project demo](assets/demo.mov)
 
 ---
 
-## Hardware
+## ✨ Features
+
+### 🔴🟢🔵 3 RGB LEDs + 3 buttons
+- Each LED supports **Red, Green, and Blue**
+- Each button corresponds to one LED
+- Input system:
+  - **1 click = Red**
+  - **2 clicks = Green**
+  - **3 clicks = Blue**
+
+### 🎚️ Difficulty selection
+- **Button 1 → Easy** (3-step pattern)
+- **Button 2 → Medium** (5-step pattern)
+- **Button 3 → Hard** (7-step pattern)
+
+### ⏱️ Non-blocking pattern display
+- Uses `millis()` instead of `delay()` for timing
+- Keeps gameplay more responsive
+- Pattern generation avoids immediate repeats to improve engagement
+
+### 🏆 Scoring + motor reward
+- Score increases when the player enters the full pattern correctly
+- Every multiple of **3 points** activates the motor:
+  - runs forward
+  - then backward
+- Score and rounds played are printed to the **Serial Monitor**
+
+### 🔁 Game loop
+- Show pattern
+- Wait for player input
+- Check correctness
+- Update score
+- Trigger reward or print correct pattern
+- Let player continue or quit
+
+---
+
+## 🛠️ Hardware
 
 - **Board:** Arduino Uno R4 (or compatible)
-- **LEDs:** 3 × RGB LEDs (with appropriate resistors)
-  - Pins 2–4: LED 1 (R, G, B)  
-  - Pins 5–7: LED 2 (R, G, B)  
-  - Pins 8–10: LED 3 (R, G, B)
+- **LEDs:** 3 × RGB LEDs with resistors
+  - Pins `2–4`: LED 1 (R, G, B)
+  - Pins `5–7`: LED 2 (R, G, B)
+  - Pins `8–10`: LED 3 (R, G, B)
 - **Buttons:** 3 × momentary push buttons
-  - Wired to analog pins `A3`, `A4`, `A5` using `INPUT_PULLUP`
-  - One side to pin, the other side to GND.
-- **Motor:** 1 × DC motor driven via a motor driver/H-bridge
-  - Controlled from digital pins `11` and `12` using `analogWrite(...)`.
+  - Connected to `A3`, `A4`, `A5`
+  - Configured using `INPUT_PULLUP`
+- **Motor:** 1 × DC motor with motor driver / H-bridge
+  - Controlled using digital pins `11` and `12`
+  - Activated with `analogWrite(...)`
 
-Check your own wiring diagram from the lab to confirm exact hardware.
+> Note: confirm final wiring with your lab schematic before rebuilding the system.
 
 ---
 
-## How to Play (Quick Rules)
+## 🎮 How to Play
 
 1. **Choose a difficulty**
-   - At startup, choose:
-     - Button 1 → Easy (3-step pattern)
-     - Button 2 → Medium (5-step pattern)
-     - Button 3 → Hard (7-step pattern)
+   - Button 1 → Easy
+   - Button 2 → Medium
+   - Button 3 → Hard
 
 2. **Start the round**
-   - After choosing difficulty, click any button to begin.
+   - Press any button after selecting difficulty
 
-3. **Watch the LED pattern**
-   - The 3 RGB LEDs will light up one at a time.
-   - Each step encodes:
-     - Which LED (1, 2, or 3)
-     - What colour (Red, Green, or Blue)
+3. **Watch the LED sequence**
+   - The 3 RGB LEDs light up in a pattern
+   - Each step contains:
+     - which LED
+     - which color
 
-4. **Repeat the pattern using the buttons**
-   - Button 1 → LED 1  
-   - Button 2 → LED 2  
-   - Button 3 → LED 3  
-   - Number of clicks = colour:
+4. **Repeat the sequence**
+   - Button 1 → LED 1
+   - Button 2 → LED 2
+   - Button 3 → LED 3
+   - Click count determines color:
      - 1 click → Red
      - 2 clicks → Green
      - 3 clicks → Blue
 
-5. **Feedback & scoring**
-   - If the entire sequence is correct:
-     - Score increments.
-     - If score is 3 or a multiple of 3, the motor runs forward and backward
-       as a reward.
-   - If you get it wrong:
-     - The correct sequence is printed to the Serial Monitor.
+5. **Get feedback**
+   - Correct full sequence → score increases
+   - Every multiple of 3 points → motor reward activates
+   - Incorrect sequence → correct pattern is printed to Serial Monitor
 
 6. **Continue or quit**
-   - Button 1 after a round → play again (reselect difficulty).
-   - Button 2 or 3 → quit (final score + rounds printed in Serial).
+   - Button 1 after a round → play again
+   - Button 2 or 3 → quit
 
 ---
 
-## Getting Started
+## 🚀 Getting Started
 
-1. Open `MemoryGame.ino` in **Arduino IDE**.
-2. Select the correct board (e.g., **Arduino Uno R4**) and COM port.
-3. Wire the hardware according to the pins above.
-4. Upload the sketch.
-5. Open the **Serial Monitor** at 9600 baud to see prompts and stats.
+1. Open `MemoryGame.ino` in the **Arduino IDE**
+2. Select the correct board:
+   - **Arduino Uno R4**
+3. Select the correct COM port
+4. Wire the hardware according to the pin assignments above
+5. Upload the sketch
+6. Open the **Serial Monitor** at **9600 baud**
 
 ---
 
-## Future Ideas
+## 🧩 Why This Project Matters
 
-- Send score + rounds data to a PC app or web interface for patient logging.
-- Tune timing and difficulty for different patient groups.
-- Add persistent high scores or session summary logging to EEPROM or SD card.
+This project was designed as a simple and engaging cognitive game that could support patient monitoring in healthcare settings. By combining **memory recall**, **interactive hardware**, and **round/score logging**, it explores how embedded systems can be used in accessible health-focused applications.
 
+It also demonstrates:
+- **embedded systems design**
+- **non-blocking timing with `millis()`**
+- **hardware-software integration**
+- **game logic and user input handling**
+- **basic patient-facing interaction design**
+
+---
+
+## 🔮 Future Ideas
+
+- Send score + rounds data directly to a PC app or web dashboard
+- Tune timing and difficulty for different patient groups
+- Save session summaries to EEPROM or SD card
+- Add persistent high scores
+- Add buzzer/audio feedback for richer interaction
+
+---
+
+## 👩‍💻 Author
+
+**Siddhi Patel**  
+First-year Computer Engineering Student  
+University of Waterloo
